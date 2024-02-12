@@ -15,24 +15,17 @@ class UsersActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityUsersBinding
 
-    override fun onCreate(
-        savedInstanceState: Bundle?,
-    ) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityUsersBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.btSave.setOnClickListener(this)
-        validateName()
     }
 
-    private fun validateName() {
-        val name = SecurityPreference(this).getString(USER_NAME)
-        if (name != EMPTY) {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-        }
+    override fun onResume() {
+        super.onResume()
     }
 
     override fun onClick(view: View) {
@@ -46,9 +39,7 @@ class UsersActivity : AppCompatActivity(), View.OnClickListener {
         val name = binding.etName.text.toString()
         if (name != EMPTY) {
             SecurityPreference(this).storeString(USER_NAME, name)
-            startActivity(Intent(this, MainActivity::class.java))
             finish()
-
         } else {
             Toast.makeText(this, R.string.validation_mandatory_name, Toast.LENGTH_SHORT).show()
         }
